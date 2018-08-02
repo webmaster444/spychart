@@ -23,7 +23,7 @@
 
     .line {
         fill: none;
-        stroke: #442C8C;
+        stroke: #1b3350;
         stroke-width: 3px;
     }
 
@@ -76,7 +76,7 @@
 
     #legend_wrapper {
         display: flex;
-        align-items: center;
+        align-items: center;        
         font-family: 'Source Sans Pro', sans-serif;
     }
 
@@ -128,8 +128,7 @@
    <div id="chart_wrapper">
       <div id="legend_wrapper">
          <div class="one-forth">
-            <p style="color: #b7acbd">Current Price</p>
-            <span id="current_price">$9,613.61</span>
+            <p style="color: #1b3350;display: inline-block;">Price for $SPY</p>            
             <svg id="arrow_svg" width="30px" height="10px" viewBox="0 0 30 10" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                <!-- Generator: Sketch 47 (45396) - http://www.bohemiancoding.com/sketch -->
                <desc>Created with Sketch.</desc>
@@ -157,16 +156,9 @@
                   </g>
                </g>
             </svg>
+            <span id="current_price">$9,613.61</span>
          </div>
-         <div class="one-forth" style="min-width: 170px">
-            <p style="color: #b7acbd">Implied Price</p>
-            <span id="implied_price">$9,613.61</span><span id="priced_data"></span>
-         </div>
-         <div class="one-forth" style="position:relative; padding-right: 30px;">
-            <p id="undevalued_label" style="color: #b7acbd">Undervalued</p>
-            <span id="undervalued_value">20.33%</span>
-            <div id="v_seperator"></div>
-         </div>
+         
          <div class="one-forth" style="padding-left: 30px;">
             <p>
                <svg width="10px" height="10px" viewBox="0 0 10 10" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
@@ -174,7 +166,7 @@
                   <desc>Created with Sketch.</desc>
                   <defs></defs>
                   <g id="Decryptz-Info-Page" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                     <g id="DCZ_InfoPage_1366" transform="translate(-502.000000, -1771.000000)" fill="#442C8C">
+                     <g id="DCZ_InfoPage_1366" transform="translate(-502.000000, -1771.000000)" fill="#1b3350">
                         <g id="News" transform="translate(112.000000, 711.000000)">
                            <g id="Implied_new" transform="translate(0.000000, 969.000000)">
                               <circle id="O" cx="395" cy="96" r="5"></circle>
@@ -183,7 +175,7 @@
                      </g>
                   </g>
                </svg>
-               <span style="margin-left: 15px;color:#442C8C;">Implied Price</span>
+               <span style="margin-left: 15px;color:#1b3350;">Mood Index</span>
             </p>
          </div>
       </div>
@@ -227,17 +219,16 @@
         }).left;
 
         // d3.json("https://dev.decryptz.com/api/v1/charts/implied_price", function(error, data) {
-        d3.json("data2.json", function(error, data) {            
+        d3.json("http://dev.psychsignal.com/api/v1/charts/mood-index", function(error, data) {
+        // d3.json("data2.json", function(error, data) {            
             data = data.slice(data.length - 125, data.length);
             
             var keys = ['z'];
-            data.forEach(function(d) {
-                var y0_positive = 0;
-                var y0_negative = 0;
-                d.lt = Date.parse(d.x);
-                d.x = timeFormat(Date.parse(d.x));
-                d.z = +d.z;
-                d.p = +d.p;
+            data.forEach(function(d) {                            
+                d.lt = Date.parse(d.dt);
+                d.x = timeFormat(Date.parse(d.dt));
+                d.z = +d.mix;
+                d.y = +d.price;
             })
             
             var siFormat = function(d) {
@@ -254,7 +245,7 @@
             var yAxis = d3.axisLeft(y).ticks(5).tickSize(0);
 
             var tmp = data[data.length - 1];
-            d3.select('#current_price').html('$' + formatSuffixDecimal2(tmp.p));
+            d3.select('#current_price').html('$' + formatSuffixDecimal2(tmp.y));
             d3.select('#implied_price').html('$' + formatSuffixDecimal2(tmp.y));
             d3.select('#implied_price').html('$' + formatSuffixDecimal2(tmp.y));
             d3.select('#priced_data').html(" ( " + timeFormat1(tmp.lt) + " )");
@@ -312,6 +303,8 @@
                     return x(d.x) + x.bandwidth() / 2
                 })
                 .y(function(d) {
+                    console.log(d.y);
+                    console.log(y1(d.y));
                     return y1(d.y);
                 });
 
@@ -376,7 +369,7 @@
                 .attr('x', 0)
                 .attr('y', 0)
                 .attr("width", 18)
-                .attr('fill', '#442C8C')
+                .attr('fill', '#1b3350')
                 .attr("height", height);
 
             focus.append("line")
@@ -386,7 +379,7 @@
 
             focus.append('circle').attr('r', 7).attr('fill', '#8faad5');
             focus.append("circle")
-                .attr("r", 4).attr('fill', '#442C8C').attr('stroke-opacity', '0').attr('stroke', '3').attr('stroke-width', '3px');
+                .attr("r", 4).attr('fill', '#1b3350').attr('stroke-opacity', '0').attr('stroke', '3').attr('stroke-width', '3px');
 
             svg.append("rect")
                 .attr("transform", "translate(" + 0 + "," + 0 + ")")
@@ -421,7 +414,7 @@
                 focus.select(".x-hover-rect").attr("y", -y1(d.y));
                 focus.select(".y-hover-line").attr("x2", width);
                 focus.select(".y-hover-line").attr("x1", -(x(d.x) + x.bandwidth() / 2));
-                d3.select('#current_price').html('$' + formatSuffixDecimal2(d.p));
+                d3.select('#current_price').html('$' + formatSuffixDecimal2(d.y));
                 d3.select('#implied_price').html('$' + formatSuffixDecimal2(d.y));
                 d3.select('#implied_price').html('$' + formatSuffixDecimal2(d.y));
                 d3.select('#priced_data').html(" ( " + timeFormat1(d.lt) + " )");
