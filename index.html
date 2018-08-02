@@ -65,8 +65,8 @@
     }
 
     .hover-line {
-        stroke: #be2f3e;
-        stroke-width: 1px;
+        stroke: #8059ca;
+        stroke-width: 2px;
     }
 
     .one-forth {
@@ -86,42 +86,8 @@
         box-sizing: border-box;
     }
 
-    #priced_data {
-        color: #bcb2c2;
-    }
-
-    #undervalued_value {
-        display: block;
-        text-align: right;
-    }
-
-    #undevalued_label {
-        text-align: right;
-        min-width: 90px;
-    }
-
-    .overvalued {
-        color: #49d58b;
-    }
-
-    .undervalued {
-        color: #bc3241;
-    }
-
-    #v_seperator {
-        background: #dbd6df;
-        width: 2px;
-        content: "";
-        display: block;
-        position: absolute;
-        top: 15px;
-        bottom: 5px;
-        right: 0;
-        min-height: 40px;
-    }
-
     #current_price {
-        color: #c0b7c6;
+        color: #1b3350;
     }
 </style>
 
@@ -219,10 +185,8 @@
         var bisectDate = d3.bisector(function(d) {
             return d.lt;
         }).left;
-
-        // d3.json("https://dev.decryptz.com/api/v1/charts/implied_price", function(error, data) {
-        d3.json("http://dev.psychsignal.com/api/v1/charts/mood-index", function(error, data) {
-        // d3.json("data2.json", function(error, data) {            
+        
+        d3.json("http://dev.psychsignal.com/api/v1/charts/mood-index", function(error, data) {        
             data = data.slice(data.length - 125, data.length);
             
             var keys = ['z'];
@@ -357,7 +321,7 @@
                 .attr('x', 0)
                 .attr('y', 0)
                 .attr("width", 18)
-                .attr('fill', '#1b3350')
+                .attr('fill', '#828282')
                 .attr("height", height);
 
             focus.append("line")
@@ -365,7 +329,7 @@
                 .attr("x1", 0)
                 .attr("x2", width);
 
-            focus.append('circle').attr('r', 7).attr('fill', '#8faad5');
+            focus.append('circle').attr('r', 7).attr('fill', '#e6e6e6');
             focus.append("circle")
                 .attr("r", 4).attr('fill', '#1b3350').attr('stroke-opacity', '0').attr('stroke', '3').attr('stroke-width', '3px');
 
