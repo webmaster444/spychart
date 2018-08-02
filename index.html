@@ -70,12 +70,14 @@
     }
 
     .one-forth {
+        display: inline-block;
         padding-left: 15px;
         padding-right: 15px;
     }
 
     #legend_wrapper {
-        display: flex;
+        max-width: 960px;
+        display: block;
         align-items: center;        
         font-family: 'Source Sans Pro', sans-serif;
     }
@@ -156,10 +158,10 @@
                   </g>
                </g>
             </svg>
-            <span id="current_price">$9,613.61</span>
+            <span id="current_price">$269.62</span>
          </div>
          
-         <div class="one-forth" style="padding-left: 30px;">
+         <div class="one-forth" style="padding-left: 30px;float:right;">
             <p>
                <svg width="10px" height="10px" viewBox="0 0 10 10" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                   <!-- Generator: Sketch 47 (45396) - http://www.bohemiancoding.com/sketch -->
@@ -246,26 +248,12 @@
 
             var tmp = data[data.length - 1];
             d3.select('#current_price').html('$' + formatSuffixDecimal2(tmp.y));
-            d3.select('#implied_price').html('$' + formatSuffixDecimal2(tmp.y));
-            d3.select('#implied_price').html('$' + formatSuffixDecimal2(tmp.y));
-            d3.select('#priced_data').html(" ( " + timeFormat1(tmp.lt) + " )");
-            d3.select('#undervalued_value').html(tmp.z + '%');
-            d3.select('#undevalued_label').html(function() {
-                if (tmp.z > 0) return "Undervalued";
-                return "Overvalued";
-            })
-            d3.select('#undervalued_value').attr('class', function() {
-                if (tmp.z > 0) {
-                    return 'overvalued';
-                }
-                return 'undervalued';
-            })
 
             var y_min = d3.min(data, function(d) {
-                return d.z - 5
+                return Math.floor(d.z);
             });
             var y_max = d3.max(data, function(d) {
-                return d.z + 5
+                return Math.ceil(d.z);
             });
 
             x.domain(data.map(function(d) {
@@ -415,20 +403,6 @@
                 focus.select(".y-hover-line").attr("x2", width);
                 focus.select(".y-hover-line").attr("x1", -(x(d.x) + x.bandwidth() / 2));
                 d3.select('#current_price').html('$' + formatSuffixDecimal2(d.y));
-                d3.select('#implied_price').html('$' + formatSuffixDecimal2(d.y));
-                d3.select('#implied_price').html('$' + formatSuffixDecimal2(d.y));
-                d3.select('#priced_data').html(" ( " + timeFormat1(d.lt) + " )");
-                d3.select('#undervalued_value').html(d.z + '%');
-                d3.select('#undevalued_label').html(function() {
-                    if (d.z > 0) return "Undervalued";
-                    return "Overvalued";
-                })
-                d3.select('#undervalued_value').attr('class', function() {
-                    if (d.z > 0) {
-                        return 'overvalued';
-                    }
-                    return 'undervalued';
-                })
             }
         })
 
