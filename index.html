@@ -227,10 +227,9 @@
         }).left;
 
         // d3.json("https://dev.decryptz.com/api/v1/charts/implied_price", function(error, data) {
-        d3.json("data2.json", function(error, data) {
-            // console.log(typeof data);
+        d3.json("data2.json", function(error, data) {            
             data = data.slice(data.length - 125, data.length);
-            console.log(data);
+            
             var keys = ['z'];
             data.forEach(function(d) {
                 var y0_positive = 0;
@@ -240,7 +239,7 @@
                 d.z = +d.z;
                 d.p = +d.p;
             })
-            console.log(data);
+            
             var siFormat = function(d) {
                 if (d !== "01")
                     return d;
