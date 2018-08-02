@@ -189,8 +189,8 @@
             return d.lt;
         }).left;
         
-        d3.json("http://dev.psychsignal.com/api/v1/charts/mood-index", function(error, data) {        
-        // d3.json("data.json", function(error, data) {        
+        // d3.json("http://dev.psychsignal.com/api/v1/charts/mood-index", function(error, data) {        
+        d3.json("data.json", function(error, data) {        
             data = data.slice(data.length - 125, data.length);
             
             var keys = ['z'];
