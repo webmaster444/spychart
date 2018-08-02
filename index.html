@@ -96,7 +96,21 @@
    <div id="chart_wrapper">
       <div id="legend_wrapper">
          <div class="one-forth">
-            <p style="color: #1b3350;display: inline-block;">Price for $SPY</p>            
+            <svg width="10px" height="10px" viewBox="0 0 10 10" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                  <!-- Generator: Sketch 47 (45396) - http://www.bohemiancoding.com/sketch -->
+                  <desc>Created with Sketch.</desc>
+                  <defs></defs>
+                  <g id="Decryptz-Info-Page" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                     <g id="DCZ_InfoPage_1366" transform="translate(-502.000000, -1771.000000)" fill="#1b3350">
+                        <g id="News" transform="translate(112.000000, 711.000000)">
+                           <g id="Implied_new" transform="translate(0.000000, 969.000000)">
+                              <circle id="O" cx="395" cy="96" r="5"></circle>
+                           </g>
+                        </g>
+                     </g>
+                  </g>
+               </svg>
+            <p style="padding-left:15px; color: #1b3350;display: inline-block;">Price for $SPY</p>            
             <svg id="arrow_svg" width="30px" height="10px" viewBox="0 0 30 10" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                <!-- Generator: Sketch 47 (45396) - http://www.bohemiancoding.com/sketch -->
                <desc>Created with Sketch.</desc>
@@ -128,21 +142,10 @@
          </div>
          
          <div class="one-forth" style="padding-left: 30px;float:right;">
-            <p>
-               <svg width="10px" height="10px" viewBox="0 0 10 10" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-                  <!-- Generator: Sketch 47 (45396) - http://www.bohemiancoding.com/sketch -->
-                  <desc>Created with Sketch.</desc>
-                  <defs></defs>
-                  <g id="Decryptz-Info-Page" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                     <g id="DCZ_InfoPage_1366" transform="translate(-502.000000, -1771.000000)" fill="#1b3350">
-                        <g id="News" transform="translate(112.000000, 711.000000)">
-                           <g id="Implied_new" transform="translate(0.000000, 969.000000)">
-                              <circle id="O" cx="395" cy="96" r="5"></circle>
-                           </g>
-                        </g>
-                     </g>
-                  </g>
-               </svg>
+            <p>               
+                <svg width="10" height="10">
+                  <rect width="10" height="10" style="fill:#AEF5D1;stroke-width:3;stroke:#AEF5D1" />
+                </svg>
                <span style="margin-left: 15px;color:#1b3350;">Mood Index</span>
             </p>
          </div>
@@ -186,8 +189,8 @@
             return d.lt;
         }).left;
         
-        // d3.json("//dev.psychsignal.com/api/v1/charts/mood-index", function(error, data) {        
-        d3.json("data.json", function(error, data) {        
+        d3.json("http://dev.psychsignal.com/api/v1/charts/mood-index", function(error, data) {        
+        // d3.json("data.json", function(error, data) {        
             data = data.slice(data.length - 125, data.length);
             
             var keys = ['z'];
