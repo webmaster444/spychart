@@ -93,6 +93,7 @@
 
 <body>
     <div id="wrapper">
+        <div style="height:1500px;width:100%;"></div>
    <div id="chart_wrapper">
       <div id="legend_wrapper">
          <div class="one-forth">
@@ -153,9 +154,12 @@
       </div>
       <div id="chart_container"></div>
    </div>
+   <div style="height:300px;width:100%;"></div>
 </div>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script src="https://d3js.org/d3.v4.min.js"></script>
     <script>
+        var called = 0;
         var positiveColor = '#38e88f';
         var negativeColor = '#be2f3e';
         var lineColor = '#be2f3e';
@@ -189,6 +193,7 @@
             return d.lt;
         }).left;
         
+        function drawChart(){
         // d3.json("http://dev.psychsignal.com/api/v1/charts/mood-index", function(error, data) {        
         d3.json("data.json", function(error, data) {        
             data = data.slice(data.length - 125, data.length);
@@ -258,9 +263,7 @@
                 .x(function(d) {
                     return x(d.x) + x.bandwidth() / 2
                 })
-                .y(function(d) {
-                    console.log(d.y);
-                    console.log(y1(d.y));
+                .y(function(d) {                                        
                     return y1(d.y);
                 });
 
@@ -374,7 +377,8 @@
                 focus.select(".y-hover-line").attr("x1", -(x(d.x) + x.bandwidth() / 2));
                 d3.select('#current_price').html('$' + formatSuffixDecimal2(d.y));
             }
-        })
+            })
+        }
     
         function transition(path) {
             path.transition()
@@ -417,4 +421,14 @@
                 }
             });
         }
+        $(window).scroll(function (event) {
+            var conTop = $("#chart_wrapper").offset().top;
+            var scrollBottom = $(window).scrollTop() + $(window).height();
+            if(scrollBottom > conTop){
+                if(called==0){
+                    drawChart();
+                    called++;
+                }
+            }
+        });
     </script>
