@@ -298,23 +298,25 @@
                 .attr("width", x.bandwidth())
                 .attr('x', function(d) {
                     return x(d.x)
-                })
+                }).style("fill", function(d) {
+                    if (d.z > 0) return positiveColor;
+                    return negativeColor;
+                }).attr('y',function(d){return y(0)})
+                .transition()
+                .duration(2000)
                 .attr("y", function(d) {
                     if (d.z > 0) return y(d.z);
                     return y(0)
                 })
                 .attr("height", function(d) {
                     return Math.abs(y(0) - y(d.z));
-                })
-                .style("fill", function(d) {
-                    if (d.z > 0) return positiveColor;
-                    return negativeColor;
                 });
 
             svg.append("path")
                 .data([data])
                 .attr("class", "line")
-                .attr("d", price_line);
+                .attr("d", price_line)
+                .call(transition);
 
             var focus = svg.append("g")
                 .attr("class", "focus")
@@ -373,6 +375,18 @@
                 d3.select('#current_price').html('$' + formatSuffixDecimal2(d.y));
             }
         })
+    
+        function transition(path) {
+            path.transition()
+                .duration(2000)
+                .attrTween("stroke-dasharray", tweenDash);
+        }
+
+        function tweenDash() {
+            var l = this.getTotalLength(),
+                i = d3.interpolateString("0," + l, l + "," + l);
+            return function (t) { return i(t); };
+        }
 
         function make_y_gridlines() {
             return d3.axisLeft(y)
